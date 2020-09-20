@@ -13,11 +13,9 @@ from loginDetails import login_details
 DEBUG_MODE = True
 PATH = "C:\\Users\shach\\OneDrive\\Desktop\\selenuim\\Maccabi-appointments"
 
-
 def print_steps(str):
     if DEBUG_MODE:
         print(str)
-
 
 def init():
     chrome_options = Options()
@@ -85,7 +83,14 @@ def search_doctor(driver, doctorFirstName, doctorLastName, city):
         print_steps("get info from table:")
 
         time.sleep(2)
+        return driver
 
+    except Exception as e:
+        print("error in search_doctor function")
+        print(e)
+
+def get_nearest_appointment(driver):
+    try:
         rows = driver.find_elements_by_class_name("row")
         for row in rows:
             cells = row.find_elements_by_css_selector("td")
@@ -94,8 +99,8 @@ def search_doctor(driver, doctorFirstName, doctorLastName, city):
                 print(cells[3].text)
 
     except Exception as e:
-        print("error in search_doctor function")
-        print(e)
+        print("error in get_nearest_appointment:")
+        print(e)    
 
 if __name__ == '__main__':
 
@@ -105,4 +110,5 @@ if __name__ == '__main__':
 
     #search_doctor(driver, doctorFirstName = "גנאדי" , doctorLastName = "יודקביץ" , city = "ירושלים")
     # search_doctor(driver, doctorFirstName = "טים" , doctorLastName = "יעקבי" , city = "ירושלים")
-    search_doctor(driver, doctorFirstName="מריאן", doctorLastName="כץ", city="ירושלים")
+    driver = search_doctor(driver, doctorFirstName="מריאן", doctorLastName="כץ", city="ירושלים")
+    get_nearest_appointment(driver)
